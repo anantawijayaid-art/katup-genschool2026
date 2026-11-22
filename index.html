@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KATUP · Konsol Penyelenggara BI-FAST (Purwarupa)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#15305C;--red:#A31621;--bred:#D93A3A;--blue:#2F6DB5;--lblue:#9DB9E8;--pblue:#E8EFFA;--green:#2E9E4F;--pgreen:#E6F4EA;--amber:#D98E04;--pamber:#FDF3DC;--grey:#F1F2F4;--grey2:#D9DCE1;--txt:#1F2329;--muted:#5B6270}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,system-ui,sans-serif;font-weight:600;color:var(--txt);background:#F6F7F9}
+header{background:var(--navy);color:#fff;display:flex;align-items:center;gap:14px;padding:12px 22px;border-bottom:4px solid var(--red)}
+.logo{width:34px;height:34px;border-radius:8px;background:var(--red);display:grid;place-items:center;font-weight:800;font-size:18px}
+header h1{font-size:17px;font-weight:700;letter-spacing:.2px}
+header small{display:block;font-size:11px;color:var(--lblue);font-weight:600}
+.mode{margin-left:auto;display:flex;gap:6px;background:#0F2447;border-radius:10px;padding:4px}
+.mode button{border:0;background:transparent;color:var(--lblue);font:inherit;font-size:12px;padding:6px 12px;border-radius:8px;cursor:pointer}
+.mode button.on{background:var(--amber);color:#fff}
+main{max-width:1240px;margin:0 auto;padding:18px 22px 90px}
+.banner{background:var(--pamber);border:1.5px solid var(--amber);color:#7a5200;border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.kpi{background:#fff;border:1.5px solid var(--grey2);border-radius:14px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--c,var(--navy))}
+.kpi b{display:block;font-size:30px;font-weight:800;color:var(--c,var(--navy));line-height:1.1}
+.kpi span{font-size:12.5px;color:var(--txt)}
+.grid{display:grid;grid-template-columns:1.25fr 1fr;gap:14px}
+.card{background:#fff;border:1.5px solid var(--grey2);border-radius:14px;overflow:hidden}
+.card h2{background:var(--c,var(--navy));color:#fff;font-size:14px;font-weight:700;padding:10px 14px;display:flex;align-items:center;gap:8px}
+.card h2 i{font-style:normal;background:#fff;color:var(--c,var(--navy));width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px}
+.body{padding:12px 14px}
+.row{display:grid;grid-template-columns:92px 1fr 96px;gap:10px;align-items:center;padding:9px 6px;border-radius:10px;cursor:pointer;font-size:13.5px}
+.row:hover,.row.sel{background:var(--pblue)}
+.bar{height:14px;background:var(--grey);border-radius:8px;overflow:hidden}
+.bar div{height:100%;border-radius:8px;transition:width .6s,background .6s}
+.lvl{font-size:12px;font-weight:700;text-align:center;border-radius:8px;padding:4px 0;color:#fff}
+.valve{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:6px 0 12px}
+.valve div{padding:9px 4px;text-align:center;color:#fff;font-size:12px;font-weight:700;opacity:.28;clip-path:polygon(0 0,90% 0,100% 50%,90% 100%,0 100%,8% 50%)}
+.valve div.on{opacity:1;transform:scale(1.04)}
+.mirror{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.mirror div{background:var(--grey);border-radius:10px;padding:10px;font-size:12px}
+.mirror b{display:block;font-size:20px;font-weight:800;color:var(--navy)}
+.gap{background:#FBEDEE!important;color:var(--red)}
+.gap b{color:var(--red)!important}
+.act{display:flex;flex-direction:column;gap:8px}
+.act .it{display:flex;gap:10px;align-items:center;background:var(--grey);border-radius:10px;padding:9px 10px;font-size:13px;border-left:6px solid var(--c)}
+.timer{font-size:13px;margin:10px 0;display:flex;justify-content:space-between;color:var(--muted)}
+.timer b{color:var(--amber);font-size:16px}
+.btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.btns button{border:0;border-radius:10px;padding:11px 6px;font:inherit;font-size:13px;font-weight:700;color:#fff;cursor:pointer}
+.freeze{margin-top:14px}
+.chain{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px}
+.node{background:var(--pgreen);border:1.5px solid var(--green);border-radius:10px;padding:7px 10px;color:#1c5e31}
+.arrow{color:var(--green);font-weight:800}
+.sim{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.sim button{border:0;background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:13.5px;padding:11px 18px;border-radius:10px;cursor:pointer}
+.sim button.sec{background:var(--navy)}
+.log{margin-top:10px;font-size:12.5px;color:var(--muted);max-height:120px;overflow:auto}
+.log p{padding:3px 0;border-bottom:1px dashed var(--grey2)}
+footer{font-size:11.5px;color:var(--muted);text-align:center;margin-top:16px}
+nav{display:none}
+@media (max-width:760px){
+ header{padding:10px 14px}header h1{font-size:15px}.mode{display:none}
+ main{padding:12px 12px 90px}
+ .kpis{grid-template-columns:repeat(2,1fr)}.kpi b{font-size:24px}
+ .grid{grid-template-columns:1fr}
+ .row{grid-template-columns:70px 1fr 82px;font-size:12.5px}
+ nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--navy);border-top:4px solid var(--red);justify-content:space-around;padding:8px 0 10px}
+ nav a{color:#fff;text-decoration:none;font-size:11px;text-align:center}
+ nav a b{display:block;font-size:17px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">K</div>
+ <div><h1>KATUP · Konsol Penyelenggara BI-FAST</h1><small>Katup Arus Terukur untuk Peserta · purwarupa esai Gen-School 2026</small></div>
+ <div class="mode"><button class="on">Mode bayangan</button><button>Uji Tingkat 1</button><button>Penuh</button></div>
+</header>
+<main>
+ <div class="banner">Data pada layar adalah simulasi ilustratif. Nama peserta disamarkan dan tidak mewakili bank riil.</div>
+ <section class="kpis" id="kpi">
+  <div class="kpi" style="--c:var(--navy)"><b>127</b><span>peserta BI-FAST terpantau</span></div>
+  <div class="kpi" style="--c:var(--bred)"><b id="k2">0</b><span>peserta di Tingkat 2</span></div>
+  <div class="kpi" style="--c:var(--green)"><b id="k3">--:--</b><span>waktu sejak transaksi tak sah pertama</span></div>
+  <div class="kpi" style="--c:var(--amber)"><b id="k4">Rp0 M</b><span>dana keluar yang tertahan</span></div>
+ </section>
+ <div class="grid">
+  <section class="card" id="peserta">
+   <h2><i>1</i>Skor Deviasi Arus per peserta (autoencoder)</h2>
+   <div class="body" id="list"></div>
+  </section>
+  <section class="card" style="--c:var(--blue)" id="aksi">
+   <h2><i>2</i>Katup dan tindakan · <span id="selname">BPD Alfa</span></h2>
+   <div class="body">
+    <div class="valve" id="valve">
+     <div style="background:var(--green)">0 Normal</div><div style="background:var(--amber)">1 Waspada</div>
+     <div style="background:var(--bred)">2 Sempit</div><div style="background:var(--red)">3 Tutup</div>
+    </div>
+    <div class="mirror">
+     <div>Debit rekening setelmen (hub)<b id="hub">Rp0,00 M</b></div>
+     <div id="gapbox">Debit tercatat buku inti peserta<b id="core">Rp0,00 M</b></div>
+    </div>
+    <div class="act" id="acts"></div>
+    <div class="timer"><span>Batas tindakan otomatis</span><b id="tm">120:00</b></div>
+    <div class="btns">
+     <button style="background:var(--green)" onclick="decide('Konfirmasi')">Konfirmasi</button>
+     <button style="background:var(--muted)" onclick="decide('Cabut')">Cabut</button>
+     <button style="background:var(--red)" onclick="decide('Naik ke Tingkat 3')">Naik Tingkat 3</button>
+    </div>
+   </div>
+  </section>
+ </div>
+ <section class="card freeze" style="--c:var(--green)" id="beku">
+  <h2><i>3</i>Jembatan Beku · penelusuran penerima dua lapis</h2>
+  <div class="body"><div class="chain" id="chain"><span class="node">Belum ada sinyal anomali</span></div></div>
+ </section>
+ <div class="sim">
+  <button onclick="attack()">Simulasikan pembobolan pada BPD Alfa</button>
+  <button class="sec" onclick="reset()">Atur ulang</button>
+ </div>
+ <div class="log" id="log"></div>
+ <footer>Purwarupa KATUP · Rancangan Penulis (2026) · Dasar kewenangan PADG 14/2025 dan PADG 3/2026</footer>
+</main>
+<nav><a href="#kpi"><b>◎</b>Ringkas</a><a href="#peserta"><b>≋</b>Peserta</a><a href="#aksi"><b>⧖</b>Katup</a><a href="#beku"><b>❄</b>Beku</a></nav>
+<script>
+const P=[["BPD Alfa",.18],["Bank Beta",.31],["Bank Gama",.22],["BPD Delta",.12],["Bank Epsilon",.09],["Bank Zeta",.16]];
+const COL=["#2E9E4F","#D98E04","#D93A3A","#A31621"],LV=["Tingkat 0","Tingkat 1","Tingkat 2","Tingkat 3"];
+let lv=[0,0,0,0,0,0],sel=0,t0=null,held=0,hub=0,core=0,timer=7200,iv=null;
+const $=id=>document.getElementById(id);
+function level(s){return s>.85?2:s>.6?1:0}
+function draw(){
+ $("list").innerHTML=P.map((p,i)=>{const l=lv[i];return `<div class="row ${i==sel?'sel':''}" onclick="pick(${i})"><span>${p[0]}</span><div class="bar"><div style="width:${p[1]*100}%;background:${COL[l]}"></div></div><span class="lvl" style="background:${COL[l]}">${LV[l]}</span></div>`}).join("");
+ $("selname").textContent=P[sel][0];
+ [...$("valve").children].forEach((d,i)=>d.classList.toggle("on",i==lv[sel]));
+ $("k2").textContent=lv.filter(x=>x==2).length;
+ $("k4").textContent="Rp"+held.toFixed(1).replace(".",",")+" M";
+ $("hub").textContent="Rp"+hub.toFixed(2).replace(".",",")+" M";
+ $("core").textContent="Rp"+core.toFixed(2).replace(".",",")+" M";
+ $("gapbox").classList.toggle("gap",hub-core>.05);
+ const a=lv[sel];const acts=[];
+ if(a>=1)acts.push(["#D98E04","Batas nominal untuk penerima baru aktif"]);
+ if(a>=2)acts.push(["#D93A3A","Arus keluar bersih dibatasi pada pola historis jam yang sama"]);
+ if(a>=1)acts.push(["#2E9E4F","Dana masuk, gaji, dan transaksi kecil rutin tetap lolos"]);
+ if(a==3)acts.push(["#A31621","Layanan dihentikan sementara atas keputusan pejabat"]);
+ if(!acts.length)acts.push(["#2E9E4F","Pemantauan rutin, tidak ada pembatasan"]);
+ $("acts").innerHTML=acts.map(x=>`<div class="it" style="--c:${x[0]}">${x[1]}</div>`).join("");
+ const m=Math.floor(timer/60),s=timer%60;$("tm").textContent=`${m}:${String(s).padStart(2,"0")}`;
+}
+function log(t){const d=new Date();$("log").insertAdjacentHTML("afterbegin",`<p>${d.toLocaleTimeString("id-ID")} · ${t}</p>`)}
+function pick(i){sel=i;draw()}
+function attack(){
+ reset(true);sel=0;t0=Date.now();log("Cermin Saldo menerima ringkasan ter-hash dari BPD Alfa");
+ let step=0;iv=setInterval(()=>{step++;
+  hub+=2.4;core+=step<2?2.4:.2;P[0][1]=Math.min(.97,.18+step*.16);
+  const l=level(P[0][1]);if(l>lv[0]){lv[0]=l;log(`BPD Alfa naik ke ${LV[l]} · selisih buku Rp${(hub-core).toFixed(2).replace(".",",")} M`);
+   if(l>=1)chain()}
+  if(lv[0]==2)held+=1.6;
+  if(lv[0]>=1)timer=Math.max(0,timer-90);
+  const sec=Math.round((Date.now()-t0)/1000)*12;$("k3").textContent=`${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`;
+  draw();if(step>=7){clearInterval(iv);log("Menunggu keputusan pejabat Bank Indonesia")}
+ },900);
+}
+function chain(){$("chain").innerHTML=`<span class="node">BPD Alfa</span><span class="arrow">→</span><span class="node">12 rekening penampung</span><span class="arrow">→</span><span class="node">3 akun pedagang aset kripto</span><span class="arrow">→</span><span class="node" style="background:#15305C;color:#fff;border-color:#15305C">Daftar dikirim ke bank penerima, OJK, IASC</span>`;log("Jembatan Beku mengirim daftar penerima dua lapis")}
+function decide(d){if(d=="Naik ke Tingkat 3")lv[sel]=3;if(d=="Cabut"){lv[sel]=0;timer=7200}log(`Pejabat: ${d} untuk ${P[sel][0]}`);draw()}
+function reset(q){clearInterval(iv);lv=[0,0,0,0,0,0];P[0][1]=.18;held=0;hub=0;core=0;timer=7200;$("k3").textContent="--:--";
+ $("chain").innerHTML='<span class="node">Belum ada sinyal anomali</span>';if(!q)$("log").innerHTML="";draw()}
+draw();
+</script>
+</body>
+</html>
